@@ -7,7 +7,7 @@ public class BinaryTree {
         Node left;
         Node right;
     }
-    public boolean searchElement(int key) {
+    boolean searchElement(int key) {
         Node element = root;
         if (element.value == 0) element.value = key;
         while (element != null) {
@@ -19,6 +19,8 @@ public class BinaryTree {
     }
     public int leftElement(int key){
         Node element = root;
+        element.left = new Node();
+        element.right = new Node();
         while (element != null){
             if (element.value == key) return element.left.value;
             else if(element.value < key) element = element.left;
@@ -26,19 +28,21 @@ public class BinaryTree {
         }
         return element.value;
     }
-    public Integer rightElement(int key){
+    int rightElement(int key){
         Node element = root;
+        element.left = new Node();
+        element.right = new Node();
         while (element != null){
             if (element.value == key) return element.right.value;
             else if(element.value < key) element = element.left;
             else if(element.value > key) element = element.right;
         }
-        return null;
+        return element.value;
     }
     Node addElement(int key){
         Node element = root;
-        element.left.value = 1;
-        element.right.value = 2;
+        element.left = new Node();
+        element.right = new Node();
         while (element.value != 0){
             if (element.value > key && element.left == null) element.right.value = key;
             if (element.value < key && element.right == null) element.left.value = key;
