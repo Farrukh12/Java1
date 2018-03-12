@@ -1,67 +1,73 @@
 package com.company;
 
-public class BinaryTree {
-    public Node root = new Node();
-    public class Node {
-        int value;
-        Node left;
-        Node right;
-    }
+class Node {
+    int date;
+    Node left;
+    Node right;
+}
+
+class BST {
     public Node creatNewNode(int k) {
         Node a = new Node();
-        a.value = k;
-        a.left = new Node();
-        a.right = new Node();
+        a.date = k;
+        a.left = null;
+        a.right = null;
         return a;
     }
-    public Node addElement(int val){
-        Node node = root;
-        if (node == null) return  creatNewNode(val);
+    public Node insert(Node node, int val) {
+        if (node == null) {
+            return creatNewNode(val);
+        }
+        if (val < node.date) {
+            node.left = insert(node.left, val);
+        } else if (val > node.date) node.right = insert(node.right, val);
         return node;
     }
+    public Node deleteElement(Node node, int key){
+        Node newnode = node;
+        while (newnode != null){
+            if (newnode.date == key) {
+                while (newnode.right != null){
+                    newnode.date = newnode.right.date;
+                    node = node.right;
+                }
 
-    boolean searchElement(int key) {
-        Node element = root;
-        element.left = new Node();
-        element.right = new Node();
-        while (element != null) {
-            if (element.value == key) return true;
-            else if (element.value < key) element = element.left;
-            else if (element.value > key) element = element.right;
+            }
+            else if (newnode.date < key) newnode = newnode.left;
+            else if (newnode.date > key) newnode = newnode.right;
+        }
+        return newnode;
+    }
+    public boolean searchElement(Node node, int key){
+        while (node != null) {
+            if (node.date == key) return true;
+            else if (node.date < key) node = node.left;
+            else if (node.date > key) node = node.right;
         }
         return false;
     }
-
-    public boolean leftElement(int key) {
-        Node element = root;
-        element.left = new Node();
-        element.right = new Node();
-        while (element != null) {
-            if (element.value == key) return true;
-            else if (element.value < key) element = element.left;
-            else if (element.value > key) element = element.right;
+    public int rightElement(Node node, int key){
+        while (node != null) {
+            if (node.date == key) return node.right.date;
+            else if (node.date < key) node = node.left;
+            else if (node.date > key) node = node.right;
         }
-        return false;
+        return 0;
     }
-
-    boolean rightElement(int key) {
-        Node element = root;
-        element.left = new Node();
-        element.right = new Node();
-        while (element != null) {
-            if (element.value == key) return true;
-            else if (element.value < key) element = element.left;
-            else if (element.value > key) element = element.right;
+    public int leftElement(Node node, int key){
+        while (node != null) {
+            if (node.date == key) return node.left.date;
+            else if (node.date < key) node = node.left;
+            else if (node.date > key) node = node.right;
         }
-        return false;
+        return 0;
     }
-    public boolean deleteElement(int key) {
-        Node element = root;
-        while (element != null) {
-            if (element.value == key) return true;
-            else if (element.value > key && element.left == null) return true;
-            else if (element.value < key && element.right == null) return true;
+    public int parentElement(Node node, int key){
+        while (node != null) {
+            if (node.right.date == key || node.left.date == key) return node.date;
+            else if (node.date < key) node = node.left;
+            else if (node.date > key) node = node.right;
         }
-        return false;
+        return 0;
     }
 }
